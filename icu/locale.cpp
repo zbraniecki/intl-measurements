@@ -1013,6 +1013,10 @@ void show(void)
   {
     // Size
 
+    // XXX: We suspect that this does not measure heap allocation, leaving `variants` not accounted for.
+    // Since there are only 3 locales with variants in the sample, we hope the results
+    // remain meaningful, but it would be nice to improve the measuring.
+
     unsigned int size = sizeof(decltype(locales.back())) * locales.capacity();
     printf("Total size of the locales vector: %d bytes.\n", size);
   }
