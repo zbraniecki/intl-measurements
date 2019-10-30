@@ -1,0 +1,22 @@
+[package]
+name = "locale"
+version = "0.1.0"
+authors = ["Zibi Braniecki <zibi@braniecki.net>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+unic-langid = "0.7"
+unic-locale = "0.7"
+
+[dev-dependencies]
+criterion = "0.3"
+
+[[bench]]
+name = "langid"
+harness = false
+
+[[bench]]
+name = "locale"
+harness = false
