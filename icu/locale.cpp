@@ -1009,8 +1009,8 @@ void show(void)
     
     auto end = chrono::steady_clock::now();
     auto diff = end - start;
-    auto measured_ns = chrono::duration_cast<chrono::nanoseconds>(diff).count();
-    printf("Number of matches against en-US: %d. time: %d ns\n", matches, measured_ns);
+    auto measured_us = chrono::duration_cast<chrono::microseconds>(diff).count();
+    printf("Number of matches against en-US: %d. time: %d us\n", matches, measured_us);
   }
 
   {
