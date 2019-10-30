@@ -9,11 +9,10 @@ I'll keep this doc with instructions.
 
 Spec: MacBook Pro 2017, 3.1 GHz Quad-Core Intel Core i7, 16 GB RAM, MacOS 10.15
 
-C++: GCC 9.2
-Rust: 1.28
-
-ICU: 64
-Unic: intl-locale 0.7
+* **C++**: GCC 9.2
+* **Rust**: 1.28
+* **ICU**: 64
+* **Unic**: intl-locale 0.7
 
 Sample: 956 locale strings provided to MozLocale constructor during fresh-profile startup of Firefox Nightly on Oct 21st 2019.
 
