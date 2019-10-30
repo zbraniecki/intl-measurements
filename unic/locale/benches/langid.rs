@@ -6,7 +6,7 @@ use criterion::Criterion;
 use unic_langid::LanguageIdentifier;
 use locale::STRINGS;
 
-fn language_identifier_parsing(c: &mut Criterion) {
+fn language_identifier(c: &mut Criterion) {
     c.bench_function("language_identifier_parsing", |b| {
         b.iter(|| {
             for s in STRINGS {
@@ -14,9 +14,7 @@ fn language_identifier_parsing(c: &mut Criterion) {
             }
         })
     });
-}
 
-fn language_identifier_matches(c: &mut Criterion) {
     c.bench_function("language_identifier_matches", |b| {
         let locales: Vec<LanguageIdentifier> = STRINGS.iter().map(|s| s.parse().unwrap()).collect();
         let reference_locale: LanguageIdentifier = "en-US".parse().unwrap();
@@ -30,8 +28,33 @@ fn language_identifier_matches(c: &mut Criterion) {
             }
         })
     });
+
+    c.bench_function("language_identifier_serialize", |b| {
+        let locales: Vec<LanguageIdentifier> = STRINGS.iter().map(|s| s.parse().unwrap()).collect();
+
+        b.iter(|| {
+            for loc in &locales {
+                let _ = black_box(loc).to_string();
+            }
+        })
+    });
+
+    c.bench_function("language_identifier_add_likely_subtags", |b| {
+        let mut locales: Vec<LanguageIdentifier> = STRINGS.iter().map(|s| {
+            let mut langid: LanguageIdentifier = s.parse().unwrap();
+            langid.add_likely_subtags();
+            langid
+        }).collect();
+
+        b.iter(|| {
+            for loc in &mut locales {
+                loc.remove_likely_subtags();
+                loc.add_likely_subtags();
+            }
+        })
+    });
 }
 
 
-criterion_group!(benches, language_identifier_parsing, language_identifier_matches);
+criterion_group!(benches, language_identifier);
 criterion_main!(benches);

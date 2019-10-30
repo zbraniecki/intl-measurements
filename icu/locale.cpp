@@ -1,4 +1,6 @@
 #include <unicode/locid.h>
+#include <unicode/utypes.h>
+#include <unicode/bytestream.h>
 #include <stdio.h>
 #include <chrono>
 #include <vector>
@@ -10,7 +12,7 @@ static void show(void);
 
 void show(void)
 {
-  vector<std::string> ids;
+  vector<string> ids;
   vector<icu_64::Locale> locales;
 
 
@@ -998,6 +1000,7 @@ void show(void)
     unsigned int matches = 0;
 
     auto start = chrono::steady_clock::now();
+
     for (auto& loc : locales) {
       if (loc == referenceLocale) {
         matches += 1;
@@ -1019,6 +1022,47 @@ void show(void)
 
     unsigned int size = sizeof(decltype(locales.back())) * locales.capacity();
     printf("Total size of the locales vector: %d bytes.\n", size);
+  }
+
+  {
+    // ToString
+
+    UErrorCode status = U_ZERO_ERROR;
+
+    auto start = chrono::steady_clock::now();
+
+    for (auto& loc : locales) {
+      string dest = "";
+      icu_64::StringByteSink<std::string> sink(&dest);
+      loc.toLanguageTag(sink, status);
+    }
+    
+    auto end = chrono::steady_clock::now();
+    auto diff = end - start;
+    auto measured_us = chrono::duration_cast<chrono::microseconds>(diff).count();
+    printf("Serialized Locale. time: %d us\n", measured_us);
+  }
+
+  {
+    // {Add|Remove}LikelySubtags
+
+    UErrorCode status = U_ZERO_ERROR;
+
+    for (auto& loc : locales) {
+      loc.addLikelySubtags(status);
+    }
+
+    auto start = chrono::steady_clock::now();
+
+    for (auto& loc : locales) {
+      loc.minimizeSubtags(status);
+      loc.addLikelySubtags(status);
+    }
+    
+    auto end = chrono::steady_clock::now();
+    auto diff = end - start;
+    auto measured_us = chrono::duration_cast<chrono::microseconds>(diff).count();
+    printf("Added/Removed likely subtags. time: %d us\n", measured_us);
   }
 }
 

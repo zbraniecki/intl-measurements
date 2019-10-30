@@ -7,8 +7,8 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-unic-langid = "0.7"
-unic-locale = "0.7"
+unic-langid = { version = "0.7", features = ["likelysubtags"] }
+unic-locale = { version = "0.7", features = ["likelysubtags"] }
 
 [dev-dependencies]
 criterion = "0.3"
