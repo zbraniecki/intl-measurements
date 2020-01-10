@@ -62,16 +62,16 @@ void show(void)
     };
     UErrorCode ec = U_ZERO_ERROR;
 
-    vector<icu_65::Locale> locales;
+    vector<icu::Locale> locales;
     for (auto& langid : langids) {
-      auto loc = icu_65::Locale(langid);
+      auto loc = icu::Locale(langid);
       locales.push_back(loc);
     }
 
     auto start = chrono::steady_clock::now();
 
     for (auto& loc : locales) {
-      auto pr = icu_65::PluralRules::forLocale(loc, ec);
+      auto pr = icu::PluralRules::forLocale(loc, ec);
       for (auto& sample : samples) {
         auto result = pr->select(sample);
 

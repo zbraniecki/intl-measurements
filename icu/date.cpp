@@ -40,41 +40,41 @@ void show(void)
       "pl",
       "pl",
     };
-    icu_65::DateFormat::EStyle dateStyles[] = {
-      icu_65::DateFormat::EStyle::FULL,
-      icu_65::DateFormat::EStyle::LONG,
-      icu_65::DateFormat::EStyle::MEDIUM,
-      icu_65::DateFormat::EStyle::SHORT,
-      icu_65::DateFormat::EStyle::NONE,
-      icu_65::DateFormat::EStyle::NONE,
-      icu_65::DateFormat::EStyle::NONE,
-      icu_65::DateFormat::EStyle::NONE,
-      icu_65::DateFormat::EStyle::FULL,
-      icu_65::DateFormat::EStyle::LONG,
-      icu_65::DateFormat::EStyle::MEDIUM,
-      icu_65::DateFormat::EStyle::SHORT,
+    icu::DateFormat::EStyle dateStyles[] = {
+      icu::DateFormat::EStyle::FULL,
+      icu::DateFormat::EStyle::LONG,
+      icu::DateFormat::EStyle::MEDIUM,
+      icu::DateFormat::EStyle::SHORT,
+      icu::DateFormat::EStyle::NONE,
+      icu::DateFormat::EStyle::NONE,
+      icu::DateFormat::EStyle::NONE,
+      icu::DateFormat::EStyle::NONE,
+      icu::DateFormat::EStyle::FULL,
+      icu::DateFormat::EStyle::LONG,
+      icu::DateFormat::EStyle::MEDIUM,
+      icu::DateFormat::EStyle::SHORT,
     };
-    icu_65::DateFormat::EStyle timeStyles[] = {
-      icu_65::DateFormat::EStyle::NONE,
-      icu_65::DateFormat::EStyle::NONE,
-      icu_65::DateFormat::EStyle::NONE,
-      icu_65::DateFormat::EStyle::NONE,
-      icu_65::DateFormat::EStyle::FULL,
-      icu_65::DateFormat::EStyle::LONG,
-      icu_65::DateFormat::EStyle::MEDIUM,
-      icu_65::DateFormat::EStyle::SHORT,
-      icu_65::DateFormat::EStyle::FULL,
-      icu_65::DateFormat::EStyle::LONG,
-      icu_65::DateFormat::EStyle::MEDIUM,
-      icu_65::DateFormat::EStyle::SHORT,
+    icu::DateFormat::EStyle timeStyles[] = {
+      icu::DateFormat::EStyle::NONE,
+      icu::DateFormat::EStyle::NONE,
+      icu::DateFormat::EStyle::NONE,
+      icu::DateFormat::EStyle::NONE,
+      icu::DateFormat::EStyle::FULL,
+      icu::DateFormat::EStyle::LONG,
+      icu::DateFormat::EStyle::MEDIUM,
+      icu::DateFormat::EStyle::SHORT,
+      icu::DateFormat::EStyle::FULL,
+      icu::DateFormat::EStyle::LONG,
+      icu::DateFormat::EStyle::MEDIUM,
+      icu::DateFormat::EStyle::SHORT,
     };
-    icu_65::Locale pl = icu_65::Locale("pl");
+    icu::Locale pl = icu::Locale("pl");
     auto start = chrono::steady_clock::now();
 
     for (auto i = 0; i < 12; i++) {
-      auto dtf = icu_65::DateFormat::createDateTimeInstance(dateStyles[i], timeStyles[i], locales[i]);
+      auto dtf = icu::DateFormat::createDateTimeInstance(dateStyles[i], timeStyles[i], locales[i]);
       for (auto& dat : dates) {
-        icu_65::UnicodeString myString;
+        icu::UnicodeString myString;
         dtf->format( dat, myString );
 
         //std::string utf8;

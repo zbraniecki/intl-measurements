@@ -978,7 +978,7 @@ void show(void)
     auto start = chrono::steady_clock::now();
 
     for (auto& langid : langids) {
-      icu_65::Locale aLocale = icu_65::Locale(langid);
+      icu::Locale aLocale = icu::Locale(langid);
     }
     
     auto end = chrono::steady_clock::now();
@@ -988,14 +988,14 @@ void show(void)
 
   }
 
-  vector<icu_65::Locale> locales;
+  vector<icu::Locale> locales;
 
   {
     // Compare
-    icu_65::Locale referenceLocale = icu_65::Locale("en-US");
+    icu::Locale referenceLocale = icu::Locale("en-US");
 
     for (auto& id : langids) {
-      icu_65::Locale aLocale = icu_65::Locale(id);
+      icu::Locale aLocale = icu::Locale(id);
       locales.push_back(aLocale);
     }
 
@@ -1035,7 +1035,7 @@ void show(void)
 
     for (auto& loc : locales) {
       string dest = "";
-      icu_65::StringByteSink<std::string> sink(&dest);
+      icu::StringByteSink<std::string> sink(&dest);
       loc.toLanguageTag(sink, status);
     }
     
