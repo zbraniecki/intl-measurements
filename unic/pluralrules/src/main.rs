@@ -58,5 +58,5 @@ fn main() {
         }
     }
 
-    println!("time: {}us", now.elapsed().as_micros());
+    println!("Select {} numbers for {} locales: {} ns", SAMPLES.len(), LOCALES.len(), now.elapsed().as_nanos());
 }

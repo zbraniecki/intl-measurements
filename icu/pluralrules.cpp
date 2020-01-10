@@ -10,6 +10,8 @@
 
 using namespace std;
 
+#define NUM(a) (sizeof(a) / sizeof(*a))
+
 static void show(void);
 
 void show(void)
@@ -83,8 +85,8 @@ void show(void)
 
     auto end = chrono::steady_clock::now();
     auto diff = end - start;
-    auto measured_us = chrono::duration_cast<chrono::microseconds>(diff).count();
-    printf("time: %d us\n", measured_us);
+    auto measured_ns = chrono::duration_cast<chrono::nanoseconds>(diff).count();
+    printf("Select %d numbers for %d locales : %d ns\n", NUM(samples), NUM(langids), measured_ns);
 
   }
 }
