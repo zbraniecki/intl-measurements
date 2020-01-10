@@ -5,37 +5,44 @@ This is a very hacky work-in-progress at the moment. I'll try to accumulate test
 
 I'll keep this doc with instructions.
 
-# Current results (as of Oct 30 2019)
+# Current results (as of January 9 2020)
 
-Spec: MacBook Pro 2017, 3.1 GHz Quad-Core Intel Core i7, 16 GB RAM, MacOS 10.15
+Spec: Dell XPS 7590, i9-9980HK CPU @ 2.40GHz, 64GB RAM, Linux Arch
 
 * **C++**: GCC 9.2
-* **Rust**: 1.28
-* **ICU**: 64
-* **Unic**: intl-locale 0.7
+* **Rust**: 1.40
+* **ICU**: 65
+* **Unic**: intl-locale 0.7, intl_pluralrules 5.0
 
 Sample: 956 locale strings provided to MozLocale constructor during fresh-profile startup of Firefox Nightly on Oct 21st 2019.
 
 
 |                    Test                      |   ICU     |    UNIC   |  Difference |
 | -------------------------------------------: | --------: | --------: | ----------: |
-| Construct an instance from a string          |    258 us |  26.48 us |     -89.74% |
-| Matching all locales against `en-US`         |     11 us |  1.239 us |     -88.74% |
-| Serializing all locales to a string          |    970 us | 117.89 us |     -87.85% |
-| Adding/Removing likely subtags               |   4589 us |  56.06 us |     -98.78% |
+| **Locale**  | | | |
+| Construct an instance from a string          |    113 us |     22 us |     -80.53% |
+| Matching all locales against `en-US`         |   4631 ns |   1803 us |     -61.06% |
+| Serializing all locales to a string          |    542 us |     83 us |     -84.68% |
+| Adding/Removing likely subtags               |   2457 us |     67 us |     -97.27% |
 | Measuring memory allocation of all instances |  229376 b |   30592 b |     -86.66% |
+| **PluralRules**  | | | |
+|Select 31 numbers for 10 locales              | 185629 ns |   3726 ns |     -97.99% |
 
 
 # How to run
 
 1) Make sure you have ICU4C installed (some additional settings for homebrew for mac in `icu/macos.txt`)
 2) `cd ./icu`
-3) `make`
+3) `make all`
 4) `./locale`
+5) `./date`
+6) `./pluralrules`
 
-5) `cd  ../unic/locale`
-6) `cargo bench`  - for perf benchmarks
-7) `cargo run` - for memory size read
+7) `cd  ../unic/locale`
+8a) `cargo run --release` - for a single-run measurements (like C++), and memory read
+8b) `cargo bench`  - for statistically valid perf benchmarks
+9) `cd ../pluralrules`
+10a) `cargo run --release` - for a single-run measurements (like C++)
 
 # Limitations
 
@@ -43,3 +50,5 @@ Currently the memory read is suboptimal, but based on review by Adam Gashlin, sh
 
 Since we use benchmark suite for Rust, we don't really have a good way to measure "just adding likelys subtags" since that would require constructing a new set of `LanguageIdentifier` instances per iteration and would be hard to exclude from measurement.
 Instead, we construct maximized instances and then cycle `minimize/maximize` per iteration. This should give us fairly good approximation of the results and comparable between ICU and Rust.
+
+The `cargo run --release` should be a good 1-1 equivalent of the C++ calls.
