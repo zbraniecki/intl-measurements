@@ -45,8 +45,8 @@ void show(void)
       icu::DateFormat::EStyle::LONG,
       icu::DateFormat::EStyle::MEDIUM,
       icu::DateFormat::EStyle::SHORT,
-      icu::DateFormat::EStyle::NONE,
-      icu::DateFormat::EStyle::NONE,
+      // icu::DateFormat::EStyle::NONE,
+      // icu::DateFormat::EStyle::NONE,
       icu::DateFormat::EStyle::NONE,
       icu::DateFormat::EStyle::NONE,
       icu::DateFormat::EStyle::FULL,
@@ -59,8 +59,8 @@ void show(void)
       icu::DateFormat::EStyle::NONE,
       icu::DateFormat::EStyle::NONE,
       icu::DateFormat::EStyle::NONE,
-      icu::DateFormat::EStyle::FULL,
-      icu::DateFormat::EStyle::LONG,
+      // icu::DateFormat::EStyle::FULL,
+      // icu::DateFormat::EStyle::LONG,
       icu::DateFormat::EStyle::MEDIUM,
       icu::DateFormat::EStyle::SHORT,
       icu::DateFormat::EStyle::FULL,
@@ -71,7 +71,7 @@ void show(void)
     icu::Locale pl = icu::Locale("pl");
     auto start = chrono::steady_clock::now();
 
-    for (auto i = 0; i < 12; i++) {
+    for (auto i = 0; i < 10; i++) {
       auto dtf = icu::DateFormat::createDateTimeInstance(dateStyles[i], timeStyles[i], locales[i]);
       for (auto& dat : dates) {
         icu::UnicodeString myString;
