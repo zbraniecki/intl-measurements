@@ -35,14 +35,13 @@ Sample: 956 locale strings provided to MozLocale constructor during fresh-profil
 2) `cd ./icu`
 3) `make all`
 4) `./locale`
-5) `./date`
-6) `./pluralrules`
+5) `./pluralrules`
 
-7) `cd  ../unic/locale`
-8a) `cargo run --release` - for a single-run measurements (like C++), and memory read
-8b) `cargo bench`  - for statistically valid perf benchmarks
+6) `cd  ../unic/locale`
+7) `cargo run --release` - for a single-run measurements (like C++), and memory read
+8) `cargo bench`  - for statistically valid perf benchmarks
 9) `cd ../pluralrules`
-10a) `cargo run --release` - for a single-run measurements (like C++)
+10) `cargo run --release` - for a single-run measurements (like C++)
 
 # Limitations
 
