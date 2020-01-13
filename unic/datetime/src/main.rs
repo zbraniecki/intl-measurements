@@ -1,12 +1,29 @@
+use std::env;
 use std::time::Instant;
-use unic_datetime::data::load_bin; // bincode loading
 use unic_datetime::data::load3; // CLDR loading
+use unic_datetime::data::load_bin; // bincode loading
 use unic_datetime::*;
 
+#[derive(Debug)]
+enum Modes {
+    JSON,
+    Binary,
+    Inline,
+}
+
+impl Modes {
+    pub fn from(arg: Option<&String>) -> Modes {
+        match arg.map(|a| a.as_str()) {
+            Some("json") => Modes::JSON,
+            Some("bin") => Modes::Binary,
+            Some("inline") => Modes::Inline,
+            None => Modes::Inline,
+            _ => panic!("Unknown mode!"),
+        }
+    }
+}
+
 fn main() {
-    let json = true;
-
-
     let dates = &[
         DateTime::new(2001, 9, 8, 18, 46, 40),
         DateTime::new(2017, 7, 13, 19, 40, 0),
@@ -34,14 +51,18 @@ fn main() {
         ("pl", Some(DateStyle::SHORT), Some(TimeStyle::SHORT)),
     ];
 
-    let now = Instant::now();
-
-    let data = if json {
-        load3::get_calendar_data("./data/cldr-dates-modern", "pl")
-    } else {
-        load_bin::get_calendar_data("./res", "pl")
+    let args: Vec<String> = env::args().collect();
+    let mode = Modes::from(args.get(1));
+    let data = match mode {
+        Modes::JSON => load3::get_calendar_data("./data/cldr-dates-modern", "pl"),
+        Modes::Binary => load_bin::get_calendar_data("./res", "pl"),
+        Modes::Inline => data::pl::RESOURCE,
     };
     // println!("{:#?}", data);
+    println!("Measuring formatting date/time in mode: {:#?}", mode);
+
+    let now = Instant::now();
+
 
     for value in values {
         let dtf = DateTimeFormat::new(value.0, value.1, value.2, &data);
