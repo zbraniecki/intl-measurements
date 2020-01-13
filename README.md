@@ -27,7 +27,9 @@ Sample: 956 locale strings provided to MozLocale constructor during fresh-profil
 | Measuring memory allocation of all instances |  229376 b |   30592 b |     -86.66% |
 | **PluralRules**  | | | |
 |Select 31 numbers for 10 locales              | 185629 ns |   3726 ns |     -97.99% |
-
+| **DateTime**  | | | |
+|Formatting 10 dates in 10 date/time styles (JSON)    | 849 us |   150 us |     -82.33% |
+|Formatting 10 dates in 10 date/time styles (BIN)     | 849 us |    70 ns |     -91.75% |
 
 # How to run
 
@@ -36,12 +38,17 @@ Sample: 956 locale strings provided to MozLocale constructor during fresh-profil
 3) `make all`
 4) `./locale`
 5) `./pluralrules`
+6) `./dates`
 
-6) `cd  ../unic/locale`
-7) `cargo run --release` - for a single-run measurements (like C++), and memory read
-8) `cargo bench`  - for statistically valid perf benchmarks
-9) `cd ../pluralrules`
-10) `cargo run --release` - for a single-run measurements (like C++)
+7) `cd  ../unic/locale`
+8) `cargo run --release` - for a single-run measurements (like C++), and memory read
+9) `cargo bench`  - for statistically valid perf benchmarks
+10) `cd ../pluralrules`
+11) `cargo run --release` - for a single-run measurements (like C++)
+12) `cd ../datetime`
+13) `cargo run --release` - for a single-run measurements from JSON CLDR resource
+14) edit `./src/main.rs` and change `let json = true;` to `let json = false;`
+15)  `cargo run --release` - for a single-run measurements from bincode resource
 
 # Limitations
 
