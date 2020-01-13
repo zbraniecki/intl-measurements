@@ -28,8 +28,10 @@ Sample: 956 locale strings provided to MozLocale constructor during fresh-profil
 | **PluralRules**  | | | |
 |Select 31 numbers for 10 locales              | 185629 ns |   3726 ns |     -97.99% |
 | **DateTime**  | | | |
-|Formatting 10 dates in 10 date/time styles (JSON)    | 849 us |   150 us |     -82.33% |
-|Formatting 10 dates in 10 date/time styles (BIN)     | 849 us |    70 ns |     -91.75% |
+|Formatting 10 dates in 10 date/time styles (JSON)    | 849 us |   110 us |     -87.04% |
+|Formatting 10 dates in 10 date/time styles (BIN)     | 849 us |    79 ns |     -90.69% |
+|Formatting 10 dates in 10 date/time styles (Inline)  | 849 us |    34 ns |     -95.99% |
+
 
 # How to run
 
@@ -46,9 +48,9 @@ Sample: 956 locale strings provided to MozLocale constructor during fresh-profil
 10) `cd ../pluralrules`
 11) `cargo run --release` - for a single-run measurements (like C++)
 12) `cd ../datetime`
-13) `cargo run --release` - for a single-run measurements from JSON CLDR resource
-14) edit `./src/main.rs` and change `let json = true;` to `let json = false;`
-15)  `cargo run --release` - for a single-run measurements from bincode resource
+13) `cargo run --release json` - for a single-run measurements from JSON CLDR resource
+14) `cargo run --release bin` - for a single-run measurements from a binary resource
+15) `cargo run --release bin` - for a single-run measurements from an inline resource
 
 # Limitations
 
