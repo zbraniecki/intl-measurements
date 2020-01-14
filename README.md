@@ -29,8 +29,8 @@ Sample: 956 locale strings provided to MozLocale constructor during fresh-profil
 |Select 31 numbers for 10 locales              | 185629 ns |   3726 ns |     -97.99% |
 | **DateTime**  | | | |
 |Formatting 10 dates in 10 date/time styles (JSON)    | 849 us |   110 us |     -87.04% |
-|Formatting 10 dates in 10 date/time styles (BIN)     | 849 us |    79 ns |     -90.69% |
-|Formatting 10 dates in 10 date/time styles (Inline)  | 849 us |    34 ns |     -95.99% |
+|Formatting 10 dates in 10 date/time styles (BIN)     | 849 us |    79 us |     -90.69% |
+|Formatting 10 dates in 10 date/time styles (Inline)  | 849 us |    34 us |     -95.99% |
 
 
 # How to run
