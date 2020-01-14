@@ -1,6 +1,6 @@
 use std::env;
 use std::time::Instant;
-use unic_datetime::data::load3; // CLDR loading
+use unic_datetime::data::load_json; // CLDR loading
 use unic_datetime::data::load_bin; // bincode loading
 use unic_datetime::*;
 
@@ -54,7 +54,7 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     let mode = Modes::from(args.get(1));
     let data = match mode {
-        Modes::JSON => load3::get_calendar_data("./data/cldr-dates-modern", "pl"),
+        Modes::JSON => load_json::get_calendar_data("./data/cldr-dates-modern", "pl"),
         Modes::Binary => load_bin::get_calendar_data("./res", "pl"),
         Modes::Inline => data::pl::RESOURCE,
     };
