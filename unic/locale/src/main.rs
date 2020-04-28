@@ -64,7 +64,7 @@ fn main() {
         let now = Instant::now();
 
         for mut loc in locales {
-            loc.add_likely_subtags();
+            loc.maximize();
         }
 
         let measured_us = now.elapsed().as_micros();
