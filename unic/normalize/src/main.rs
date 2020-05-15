@@ -5,10 +5,10 @@ use unicode_normalization::UnicodeNormalization;
 
 #[link(name = "icuuc")]
 extern "C" {
-    fn unorm2_getNFCInstance_67(pErrorCode: *mut libc::c_int) -> *mut libc::c_void;
-    fn unorm2_getNFDInstance_67(pErrorCode: *mut libc::c_int) -> *mut libc::c_void;
-    fn unorm2_close_67(norm2: *mut libc::c_void);
-    fn unorm2_normalize_67(
+    fn unorm2_getNFCInstance_66(pErrorCode: *mut libc::c_int) -> *mut libc::c_void;
+    fn unorm2_getNFDInstance_66(pErrorCode: *mut libc::c_int) -> *mut libc::c_void;
+    fn unorm2_close_66(norm2: *mut libc::c_void);
+    fn unorm2_normalize_66(
       norm2: *mut libc::c_void,
       src: *const u16,
       length: i32,
@@ -20,7 +20,7 @@ extern "C" {
 
 fn measure_nfc(loc: &str, sample: String) {
     let mut err = 0;
-    let norm = unsafe { unorm2_getNFCInstance_67(&mut err) };
+    let norm = unsafe { unorm2_getNFCInstance_66(&mut err) };
     let src: Vec<u16> = sample.encode_utf16().collect();
     let length = src.len() as i32;
     let mut dest: Vec<u16> = Vec::with_capacity(length as usize);
@@ -30,7 +30,7 @@ fn measure_nfc(loc: &str, sample: String) {
     let now = Instant::now();
 
     let res = unsafe {
-        unorm2_normalize_67(
+        unorm2_normalize_66(
             norm,
             src.as_ptr(),
             length,
@@ -50,12 +50,12 @@ fn measure_nfc(loc: &str, sample: String) {
 
     println!("Normalization to NFC of {} sample. ICU: {} us, Rust: {} us", loc, measured_us, measured_us2);
 
-    // unsafe { unorm2_close_67(norm); }
+    // unsafe { unorm2_close_66(norm); }
 }
 
 fn measure_nfd(loc: &str, sample: String) {
     let mut err = 0;
-    let norm = unsafe { unorm2_getNFDInstance_67(&mut err) };
+    let norm = unsafe { unorm2_getNFDInstance_66(&mut err) };
     let src: Vec<u16> = sample.encode_utf16().collect();
     let length = src.len() as i32;
     let mut dest: Vec<u16> = Vec::with_capacity(length as usize);
@@ -65,7 +65,7 @@ fn measure_nfd(loc: &str, sample: String) {
     let now = Instant::now();
 
     let res = unsafe {
-        unorm2_normalize_67(
+        unorm2_normalize_66(
             norm,
             src.as_ptr(),
             length,
@@ -84,7 +84,7 @@ fn measure_nfd(loc: &str, sample: String) {
     let measured_us2 = now.elapsed().as_micros();
     println!("Normalization to NFD of {} sample. ICU: {} us, Rust: {} us", loc, measured_us, measured_us2);
 
-    // unsafe { unorm2_close_67(norm); }
+    // unsafe { unorm2_close_66(norm); }
 }
 
 fn measure_for_locale(loc: &str) {
