@@ -7,10 +7,10 @@ use unicode_normalization::UnicodeNormalization;
 
 #[link(name = "icuuc")]
 extern "C" {
-    fn unorm2_getNFCInstance_66(pErrorCode: *mut libc::c_int) -> *mut libc::c_void;
-    fn unorm2_getNFDInstance_66(pErrorCode: *mut libc::c_int) -> *mut libc::c_void;
-    fn unorm2_close_66(norm2: *mut libc::c_void);
-    fn unorm2_normalize_66(
+    fn unorm2_getNFCInstance_67(pErrorCode: *mut libc::c_int) -> *mut libc::c_void;
+    fn unorm2_getNFDInstance_67(pErrorCode: *mut libc::c_int) -> *mut libc::c_void;
+    fn unorm2_close_67(norm2: *mut libc::c_void);
+    fn unorm2_normalize_67(
         norm2: *mut libc::c_void,
         src: *const u16,
         length: i32,
@@ -66,7 +66,7 @@ fn normalize_icu(normalizer: *mut libc::c_void, src: &[u16], dst: &mut [u16]) {
     let mut err = 0;
 
     let _ = unsafe {
-        unorm2_normalize_66(
+        unorm2_normalize_67(
             normalizer,
             src.as_ptr(),
             src.len() as i32,
@@ -79,7 +79,7 @@ fn normalize_icu(normalizer: *mut libc::c_void, src: &[u16], dst: &mut [u16]) {
 
 fn measure_nfc(loc: &str, sample: &str, form: &str) {
     let mut err = 0;
-    let norm = unsafe { unorm2_getNFCInstance_66(&mut err) };
+    let norm = unsafe { unorm2_getNFCInstance_67(&mut err) };
     let src: Vec<u16> = sample.encode_utf16().collect();
     let mut dest: Vec<u16> = Vec::new();
     dest.resize(src.len() * 10, 0); // Assume the operation won't stretch the string by a factor larger than 10
@@ -109,12 +109,12 @@ fn measure_nfc(loc: &str, sample: &str, form: &str) {
 
     assert!(count < dest.len());
 
-    // unsafe { unorm2_close_66(norm); }
+    // unsafe { unorm2_close_67(norm); }
 }
 
 fn measure_nfd(loc: &str, sample: &str, form: &str) {
     let mut err = 0;
-    let norm = unsafe { unorm2_getNFDInstance_66(&mut err) };
+    let norm = unsafe { unorm2_getNFDInstance_67(&mut err) };
     let src: Vec<u16> = sample.encode_utf16().collect();
     let mut dest: Vec<u16> = Vec::new();
     dest.resize(src.len() * 10, 0); // Assume the operation won't stretch the string by a factor larger than 10
@@ -144,7 +144,7 @@ fn measure_nfd(loc: &str, sample: &str, form: &str) {
 
     assert!(count < dest.len());
 
-    // unsafe { unorm2_close_66(norm); }
+    // unsafe { unorm2_close_67(norm); }
 }
 
 fn measure_for_locale(loc: &str) {
@@ -167,23 +167,6 @@ fn measure_for_locale(loc: &str) {
         measure_nfc(loc, &sample_orthographic, "orthographic");
         measure_nfd(loc, &sample_orthographic, "orthographic");
     }
-    // {
-    //     let now = Instant::now();
-    //
-    //     let _ = Some(sample_nfc.nfd().collect::<String>());
-    //
-    //     let measured_us = now.elapsed().as_micros();
-    //     println!("Normalization of NFC to NFD of {} sample. time: {} us", loc, measured_us);
-    // }
-    //
-    // {
-    //     let now = Instant::now();
-    //
-    //     let _ = Some(sample_nfd.nfc().collect::<String>());
-    //
-    //     let measured_us = now.elapsed().as_micros();
-    //     println!("Normalization of NFD to NFC of {} sample. time: {} us", loc, measured_us);
-    // }
 }
 
 fn main() {
@@ -192,5 +175,4 @@ fn main() {
     for loc in locales {
         measure_for_locale(loc);
     }
-    // measure_c();
 }
