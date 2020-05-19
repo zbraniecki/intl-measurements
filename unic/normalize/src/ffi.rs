@@ -12,4 +12,3 @@ extern "C" {
         pErrorCode: *mut libc::c_int,
     ) -> i32;
 }
-

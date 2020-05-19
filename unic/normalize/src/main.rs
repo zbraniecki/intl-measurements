@@ -102,7 +102,6 @@ fn measure_nfd(loc: &str, sample: &str, form: &str) {
 }
 
 fn measure_for_locale(loc: &str) {
-    println!("");
     let sample = fs::read_to_string(format!("../../data/normalization/{}.txt", loc)).unwrap();
 
     let sample_nfc = sample.chars().nfc().collect::<String>();

@@ -59,14 +59,15 @@ pub fn nfd_rust_utf16(src: &[u16], dst: &mut [u16]) {
 #[inline(never)]
 pub fn nfc_rust_utf16_count_only(src: &[u16]) -> usize {
     std::char::decode_utf16(src.into_iter().cloned())
-            .map(|r| r.unwrap_or('\u{FFFD}'))
-            .nfc().count()
+        .map(|r| r.unwrap_or('\u{FFFD}'))
+        .nfc()
+        .count()
 }
 
 #[inline(never)]
 pub fn nfd_rust_utf16_count_only(src: &[u16]) -> usize {
     std::char::decode_utf16(src.into_iter().cloned())
-            .map(|r| r.unwrap_or('\u{FFFD}'))
-            .nfd().count()
+        .map(|r| r.unwrap_or('\u{FFFD}'))
+        .nfd()
+        .count()
 }
-
