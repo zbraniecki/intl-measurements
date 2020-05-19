@@ -1,3 +1,5 @@
+use normalize::ffi;
+
 use std::fs;
 use std::time::Instant;
 
@@ -5,144 +7,96 @@ use detone::IterDecomposeVietnamese;
 
 use unicode_normalization::UnicodeNormalization;
 
-#[link(name = "icuuc")]
-extern "C" {
-    fn unorm2_getNFCInstance_67(pErrorCode: *mut libc::c_int) -> *mut libc::c_void;
-    fn unorm2_getNFDInstance_67(pErrorCode: *mut libc::c_int) -> *mut libc::c_void;
-    fn unorm2_close_67(norm2: *mut libc::c_void);
-    fn unorm2_normalize_67(
-        norm2: *mut libc::c_void,
-        src: *const u16,
-        length: i32,
-        dest: *mut u16,
-        capacity: i32,
-        pErrorCode: *mut libc::c_int,
-    ) -> i32;
-}
-
-fn write_to_utf16_slice<'a, I: IntoIterator<Item = char>>(iter: I, slice: &mut [u16]) {
-    let mut tail = slice;
-    for c in iter {
-        let written = c.encode_utf16(tail).len();
-        tail = &mut tail[written..];
-    }
-}
-
-#[inline(never)]
-fn normalize_nfc_rust(src: &[u16], dst: &mut [u16]) {
-    write_to_utf16_slice(
-        std::char::decode_utf16(src.into_iter().cloned())
-            .map(|r| r.unwrap_or('\u{FFFD}'))
-            .nfc(),
-        dst,
-    );
-}
-
-#[inline(never)]
-fn normalize_nfd_rust(src: &[u16], dst: &mut [u16]) {
-    write_to_utf16_slice(
-        std::char::decode_utf16(src.into_iter().cloned())
-            .map(|r| r.unwrap_or('\u{FFFD}'))
-            .nfd(),
-        dst,
-    );
-}
-
-#[inline(never)]
-fn normalize_nfc_rust_count_only(src: &[u16]) -> usize {
-    std::char::decode_utf16(src.into_iter().cloned())
-            .map(|r| r.unwrap_or('\u{FFFD}'))
-            .nfc().count()
-}
-
-#[inline(never)]
-fn normalize_nfd_rust_count_only(src: &[u16]) -> usize {
-    std::char::decode_utf16(src.into_iter().cloned())
-            .map(|r| r.unwrap_or('\u{FFFD}'))
-            .nfd().count()
-}
-
-fn normalize_icu(normalizer: *mut libc::c_void, src: &[u16], dst: &mut [u16]) {
-    let mut err = 0;
-
-    let _ = unsafe {
-        unorm2_normalize_67(
-            normalizer,
-            src.as_ptr(),
-            src.len() as i32,
-            dst.as_mut_ptr(),
-            dst.len() as i32,
-            &mut err,
-        );
-    };
-}
-
 fn measure_nfc(loc: &str, sample: &str, form: &str) {
     let mut err = 0;
-    let norm = unsafe { unorm2_getNFCInstance_67(&mut err) };
+    let norm = unsafe { ffi::unorm2_getNFCInstance_67(&mut err) };
     let src: Vec<u16> = sample.encode_utf16().collect();
-    let mut dest: Vec<u16> = Vec::new();
-    dest.resize(src.len() * 10, 0); // Assume the operation won't stretch the string by a factor larger than 10
+    let mut dest_utf16: Vec<u16> = Vec::new();
+    dest_utf16.resize(src.len() * 10, 0); // Assume the operation won't stretch the string by a factor larger than 10
+    let mut dest_utf8 = String::with_capacity(src.len() * 10); // Tested with Vec<char>, no difference
 
     let now = Instant::now();
 
-    normalize_icu(norm, &src, &mut dest);
+    normalize::icu(norm, &src, &mut dest_utf16);
 
     let measured_us = now.elapsed().as_micros();
 
     let now = Instant::now();
 
-    normalize_nfc_rust(&src, &mut dest);
+    normalize::nfc_rust_utf16(&src, &mut dest_utf16);
 
     let measured_us2 = now.elapsed().as_micros();
 
     let now = Instant::now();
 
-    let count = normalize_nfc_rust_count_only(&src);
+    let count = normalize::nfc_rust_utf16_count_only(&src);
 
     let measured_us3 = now.elapsed().as_micros();
 
     println!(
-        "Normalization to NFC from {} of {} sample. ICU: {} us, Rust: {} us, Rust count {}: {} us",
+        "Normalization to NFC using UTF-16 from {} of {} sample. ICU: {} us, Rust: {} us, Rust count {}: {} us",
         form, loc, measured_us, measured_us2, count, measured_us3
     );
 
-    assert!(count < dest.len());
+    assert!(count < dest_utf16.len());
+
+    let now = Instant::now();
+
+    normalize::nfc_rust_utf8(sample, &mut dest_utf8);
+
+    let measured_us = now.elapsed().as_micros();
+
+    println!(
+        "Normalization to NFC using UTF-8 from {} of {} sample. Rust: {} us",
+        form, loc, measured_us
+    );
 
     // unsafe { unorm2_close_67(norm); }
 }
 
 fn measure_nfd(loc: &str, sample: &str, form: &str) {
     let mut err = 0;
-    let norm = unsafe { unorm2_getNFDInstance_67(&mut err) };
+    let norm = unsafe { ffi::unorm2_getNFDInstance_67(&mut err) };
     let src: Vec<u16> = sample.encode_utf16().collect();
     let mut dest: Vec<u16> = Vec::new();
     dest.resize(src.len() * 10, 0); // Assume the operation won't stretch the string by a factor larger than 10
+    let mut dest_utf8 = String::with_capacity(src.len() * 10); // Tested with Vec<char>, no difference
 
     let now = Instant::now();
 
-    normalize_icu(norm, &src, &mut dest);
+    normalize::icu(norm, &src, &mut dest);
 
     let measured_us = now.elapsed().as_micros();
 
     let now = Instant::now();
 
-    normalize_nfd_rust(&src, &mut dest);
+    normalize::nfd_rust_utf16(&src, &mut dest);
 
     let measured_us2 = now.elapsed().as_micros();
 
     let now = Instant::now();
 
-    let count = normalize_nfd_rust_count_only(&src);
+    let count = normalize::nfd_rust_utf16_count_only(&src);
 
     let measured_us3 = now.elapsed().as_micros();
 
     println!(
-        "Normalization to NFD from {} of {} sample. ICU: {} us, Rust: {} us, Rust count {}: {} us",
+        "Normalization to NFD using UTF-16 from {} of {} sample. ICU: {} us, Rust: {} us, Rust count {}: {} us",
         form, loc, measured_us, measured_us2, count, measured_us3
     );
 
     assert!(count < dest.len());
+
+    let now = Instant::now();
+
+    normalize::nfc_rust_utf8(sample, &mut dest_utf8);
+
+    let measured_us = now.elapsed().as_micros();
+
+    println!(
+        "Normalization to NFD using UTF-8 from {} of {} sample. Rust: {} us",
+        form, loc, measured_us
+    );
 
     // unsafe { unorm2_close_67(norm); }
 }
