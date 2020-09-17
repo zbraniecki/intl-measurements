@@ -1,0 +1,16 @@
+[package]
+name = "pluralrules-icu4x-test"
+version = "0.1.0"
+authors = ["Zibi Braniecki <zibi@braniecki.net>"]
+edition = "2018"
+
+[dependencies]
+intl-harness = { path = "../../harness" }
+icu_locid = "0.1"
+icu_plurals = "0.1"
+icu_provider_fs = { version = "0.1", features = ["bincode"] }
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1

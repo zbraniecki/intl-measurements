@@ -1,0 +1,9 @@
+[package]
+name = "locale-icu4c-test"
+version = "0.1.0"
+authors = ["Zibi Braniecki <zibi@braniecki.net>"]
+edition = "2018"
+
+[dependencies]
+intl-harness = { path = "../../harness" }
+libc = "0.2"
