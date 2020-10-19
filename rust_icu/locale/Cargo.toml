@@ -1,12 +1,17 @@
 [package]
-name = "pluralrules-test"
+name = "locale"
 version = "0.1.0"
-authors = ["Zibi Braniecki <zibi@braniecki.net>"]
+authors = ["Zibi Braniecki <zbraniecki@mozilla.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 intl-harness = { path = "../../harness" }
-intl_pluralrules = "7.0"
-unic-langid = {version = "0.9", features = ["macros"] }
+rust_icu_uloc = "0.3"
+rust_icu_common = "0.3"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1

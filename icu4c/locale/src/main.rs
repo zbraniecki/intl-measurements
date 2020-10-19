@@ -6,11 +6,11 @@ use intl_harness::locale::HarnessLocaleRuntime;
 
 #[link(name = "icuuc")]
 extern "C" {
-    pub fn uloc_getLanguage_66(localeID: *const c_char, language: *mut c_char, languageCapacity: i32, UErrorCode: *mut libc::c_int) -> i32;
-    pub fn uloc_getScript_66(localeID: *const c_char, script: *mut c_char, scriptCapacity: i32, UErrorCode: *mut libc::c_int) -> i32;
-    pub fn uloc_getCountry_66(localeID: *const c_char, region: *mut c_char, regionCapacity: i32, UErrorCode: *mut libc::c_int) -> i32;
-    pub fn uloc_getVariant_66(localeID: *const c_char, variant: *mut c_char, variantCapacity: i32, UErrorCode: *mut libc::c_int) -> i32;
-    pub fn uloc_canonicalize_66(localeID: *const c_char, name: *mut c_char, nameCapacity: i32, UErrorCode: *mut libc::c_int) -> i32;
+    pub fn uloc_getLanguage_67(localeID: *const c_char, language: *mut c_char, languageCapacity: i32, UErrorCode: *mut libc::c_int) -> i32;
+    pub fn uloc_getScript_67(localeID: *const c_char, script: *mut c_char, scriptCapacity: i32, UErrorCode: *mut libc::c_int) -> i32;
+    pub fn uloc_getCountry_67(localeID: *const c_char, region: *mut c_char, regionCapacity: i32, UErrorCode: *mut libc::c_int) -> i32;
+    pub fn uloc_getVariant_67(localeID: *const c_char, variant: *mut c_char, variantCapacity: i32, UErrorCode: *mut libc::c_int) -> i32;
+    pub fn uloc_canonicalize_67(localeID: *const c_char, name: *mut c_char, nameCapacity: i32, UErrorCode: *mut libc::c_int) -> i32;
 }
 
 #[derive(Debug, PartialEq)]
@@ -34,7 +34,7 @@ impl FromStr for LanguageIdentifier {
             let output = CString::default();
             let ptr = output.into_raw();
             unsafe {
-                uloc_getLanguage_66(input.as_ptr(), ptr, capacity, &mut err);
+                uloc_getLanguage_67(input.as_ptr(), ptr, capacity, &mut err);
             };
             unsafe { CString::from_raw(ptr) }.into_string().unwrap()
         };
@@ -42,7 +42,7 @@ impl FromStr for LanguageIdentifier {
             let output = CString::default();
             let ptr = output.into_raw();
             unsafe {
-                uloc_getCountry_66(input.as_ptr(), ptr, capacity, &mut err);
+                uloc_getCountry_67(input.as_ptr(), ptr, capacity, &mut err);
             };
             unsafe { CString::from_raw(ptr) }.into_string().unwrap()
         };
@@ -50,7 +50,7 @@ impl FromStr for LanguageIdentifier {
             let output = CString::default();
             let ptr = output.into_raw();
             unsafe {
-                uloc_getScript_66(input.as_ptr(), ptr, capacity, &mut err);
+                uloc_getScript_67(input.as_ptr(), ptr, capacity, &mut err);
             };
             unsafe { CString::from_raw(ptr) }.into_string().unwrap()
         };
@@ -58,7 +58,7 @@ impl FromStr for LanguageIdentifier {
             let output = CString::default();
             let ptr = output.into_raw();
             unsafe {
-                uloc_getVariant_66(input.as_ptr(), ptr, capacity, &mut err);
+                uloc_getVariant_67(input.as_ptr(), ptr, capacity, &mut err);
             };
             unsafe { CString::from_raw(ptr) }.into_string().unwrap()
         };
@@ -100,7 +100,7 @@ impl HarnessLocaleRuntime for IcuLocale {
         let output = CString::default();
         let ptr = output.into_raw();
         unsafe {
-            uloc_canonicalize_66(input.as_ptr(), ptr, capacity, &mut err);
+            uloc_canonicalize_67(input.as_ptr(), ptr, capacity, &mut err);
         };
         unsafe { CString::from_raw(ptr) }.into_string().unwrap()
     }
