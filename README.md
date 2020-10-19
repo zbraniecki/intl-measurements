@@ -40,4 +40,6 @@ Sample: 956 locale strings provided to MozLocale constructor during fresh-profil
 | Filter all locales against `en-US`           | 3,035 ns | 5,539 ns | 10,013 ns | 48,195 ns | 3,067 ns |
 | Serializing all locales to a string          | 68,072 ns | 77,826 ns | 66,682 ns | 2,982,821 ns | 75,760 ns |
 | Canonicalize all strings                     | 88,416 ns | 942,376 ns | 217,938 ns | 2,010,337 ns | 115,324 ns |
-| Measuring memory allocation of all instances | 30, 592 b | 22,944 b | 91,776 b | 229,376 b | 30,592 b |
+| Measuring memory allocation of all instances | 30,592 b | 22,944 b | 91,776 b | 229,376 b | 30,592 b |
+| **Plural Rules**  | | | | | |
+| Select | 92 ns | 289 ns | 287 ns | 123,822 ns |  5 ns |
