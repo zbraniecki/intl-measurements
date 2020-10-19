@@ -1,50 +1,43 @@
 # intl-measurements
-Measurements of various intl approaches.
 
-This is a very hacky work-in-progress at the moment. I'll try to accumulate test results between ICU (C++), MozLocale (C++) and Rust `unic-locale` & friends.
+This repository is a sub-project of ICU4X project and contains a harness and implementations of small benchmarks for measuring performance, memory and size differences between various implementations of ICU.
 
-I'll keep this doc with instructions.
+The main goal of this project is to establish a reasonable framework for comparing those measurements across multiple implementations and validate a claim that ICU4X is not slower, doesn't use more memory and doesn't take more space than a comparable alternatives.
 
-# Current results (as of January 9 2020)
+# Tests
+
+At the moment the harness is focused on measuring performance between:
+
+* ICU4X 0.1
+* ICU4C 67 (using C++ apps)
+* ICU4C 67 (via `rust_icu`)
+* ICU4C 67 (via FFI)
+* A set of earlier Rust implementations of components such as `intl_pluralrules`, `unic_locale`, and `unic_datetime`
+
+The aim is to make it easy to compare different backends for similar basic operations and minimize noise in data.
+
+The tests can be launched via `stand-alone` binaries, or in case of all Rust apps via `criterion` benchmark.
+
+# Current results (as of October 19 2020)
 
 Specs:
-* Macbook Pro 2017
+* Dell Tower 5820
+  * Intel(R) Xeon(R) W-2155 CPU @ 3.30GHz x20
+  * 32 GB RAM
 
-* **C++**: Clang 12
-* **Rust**: 1.46
+* **C++**: GCC 10
+* **Rust**: 1.47
 * **ICU4C**: 67
 * **ICU4X**: icu4x 0.1
 
 Sample: 956 locale strings provided to MozLocale constructor during fresh-profile startup of Firefox Nightly on Oct 21st 2019.
 
 
-|                    Test                      |   ICU4C   |    ICU4X  |  Difference |
-| -------------------------------------------: | --------: | --------: | ----------: |
-| **Locale**  | | | |
-| Construct an instance from a string          |    289 us |     33 us |     -88.58% |
-| Matching all locales against `en-US`         |  11669 ns |   2085 us |     -82.13% |
-| Serializing all locales to a string          |   1160 us |    165 us |     -85.78% |
-| Measuring memory allocation of all instances |  229376 b |   30592 b |     -86.66% |
-| **PluralRules**  | | | |
-|Select 31 numbers for 10 locales              | 481130 ns | 285701 ns |     -40.62% |
-
-
-# How to run
-
-1) Make sure you have ICU4C installed (some additional settings for homebrew for mac in `icu/macos.txt`)
-2) `cd ./icu4c`
-3) `make all`
-4) `./locale`
-5) `./pluralrules`
-
-1) `cd  ../icu4x/locale`
-2) `cargo run --release` - for a single-run measurements (like C++), and memory read
-3) `cargo bench`  - for statistically valid perf benchmarks
-4) `cd ../pluralrules`
-5) `cargo run --release` - for a single-run measurements (like C++)
-
-# Limitations
-
-Currently the memory read is suboptimal, but based on review by Adam Gashlin, should be fairly accurate for both C++ and Rust minus `variants`. Since there are only 3 variants in a pool of close to 1000 locales to sample, the results should be fairly accurate.
-
-The `cargo run --release` should be a good 1-1 equivalent of the C++ calls.
+|                    Test                      | ICU4X | ICU4C (rust_icu) | ICU4X (FFI) | ICU4C (C++) | Unic |
+| -------------------------------------------: | --------: | --------: | ----------: | ----------: | ----------: |
+| **Locale**  | | | | | |
+| Construct an instance from a string          | 28,531 ns | 821,947 ns |
+| Filter all locales against `en-US`           | 3,035 ns | 5,539 ns |
+| Serializing all locales to a string          | 68,072 ns | 77,826 ns |
+| Canonicalize all strings                     | 88,416 ns | 942,376 ns |
+| Measuring memory allocation of all instances | 30, 592 b | 22,944 b |
