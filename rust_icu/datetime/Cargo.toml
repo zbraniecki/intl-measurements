@@ -1,16 +1,19 @@
 [package]
-name = "datetime-test"
+name = "datetime"
 version = "0.1.0"
-authors = ["Zibi Braniecki <zibi@braniecki.net>"]
+authors = ["Zibi Braniecki <zbraniecki@mozilla.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 intl-harness = { path = "../../harness" }
-icu_locid = "0.1"
-icu_datetime = "0.1"
-icu_provider_fs = {version = "0.1", features = ["bincode"] }
+rust_icu_sys = "0.3"
+rust_icu_uloc = "0.3"
+rust_icu_udat = "0.3"
+rust_icu_common = "0.3"
+rust_icu_ustring = "0.3"
+chrono = "0.4"
 
 [profile.release]
 opt-level = 3

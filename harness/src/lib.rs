@@ -3,6 +3,7 @@ pub mod data;
 
 pub mod locale;
 pub mod plurals;
+pub mod datetime;
 
 use serde::de;
 use std::fs::File;
