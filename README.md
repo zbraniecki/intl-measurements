@@ -43,3 +43,5 @@ Sample: 956 locale strings provided to MozLocale constructor during fresh-profil
 | Measuring memory allocation of all instances | 30,592 b | 22,944 b | 91,776 b | 229,376 b | 30,592 b |
 | **Plural Rules**  | | | | | |
 | Select | 92 ns | 289 ns | 287 ns | 123,822 ns |  5 ns |
+| **Date Time**  | | | | | |
+| Format | 1,764 ns | 8,251 ns | | | |
