@@ -1,4 +1,4 @@
-use icu_unicodeset::UnicodeSet;
+use icu_uniset::UnicodeSet;
 use std::char;
 use std::time::Instant;
 
