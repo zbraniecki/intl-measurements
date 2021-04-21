@@ -1,11 +1,11 @@
 CXX := c++
 
 # System ICU
-PKG := `pkg-config --libs --cflags icu-uc icu-io icu-i18n jsoncpp`
+# PKG := `pkg-config --libs --cflags icu-uc icu-io icu-i18n jsoncpp`
 
 # Custom ICU
-# ICU_PATH:= /home/mozilla/projects/icu/icu4c/source
-# PKG := `pkg-config --libs --cflags jsoncpp` -I$(ICU_PATH)/i18n -I$(ICU_PATH)/common -L$(ICU_PATH)/lib -licui18n -licuuc -licudata
+ICU_PATH:= /home/zbraniecki/projects/icu/icu4c/source
+PKG := `pkg-config --libs --cflags jsoncpp` -I$(ICU_PATH)/i18n -I$(ICU_PATH)/common -L$(ICU_PATH)/lib -licui18n -licuuc -licudata
 
 all: locale pluralrules date uniset line_break
 
