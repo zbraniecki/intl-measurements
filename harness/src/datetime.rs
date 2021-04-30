@@ -24,7 +24,7 @@ pub trait HarnessDateTimeRuntime {
             let now = Instant::now();
 
             let _: Vec<_> = self.format();
-            let measured_ns = now.elapsed().as_micros();
+            let measured_ns = now.elapsed().as_nanos();
             let result = TestResult {
                 value: measured_ns,
                 unit: "ns".into(),
