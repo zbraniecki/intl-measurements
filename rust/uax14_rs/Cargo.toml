@@ -1,0 +1,15 @@
+[package]
+name = "uax14_rs_test"
+version = "0.1.0"
+authors = ["Ting-Yu Lin <aethanyc@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+uax14_rs = { git = "https://github.com/makotokato/uax14_rs", rev = "4305fd22827c412b09da5de8eba5c34a2a104e37" }
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
