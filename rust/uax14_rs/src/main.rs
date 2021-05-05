@@ -25,5 +25,8 @@ fn main() {
     println!("Testing zhuangzi-zh.txt");
     test("../../data/zhuangzi-zh.txt");
 
+    println!("Testing thai.txt");
+    test("../../data/thai.txt");
+
     println!();
 }

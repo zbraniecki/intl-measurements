@@ -5,17 +5,28 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-
-#include <unicode/utypes.h>
-#include <unicode/bytestream.h>
-#include <stdio.h>
 #include <chrono>
 #include <vector>
-#include <cstring>
 
 using namespace std;
 
-void test(const char* testDataPath, const char* locale) {
+string format_vector(const vector<int32_t>& vec) {
+  stringstream sstr;
+
+  auto iter = vec.begin();
+  if (iter == vec.end()) {
+    return string();
+  }
+
+  sstr << *iter;
+  while (++iter != vec.end()) {
+    sstr << ", " << *iter;
+  }
+
+  return sstr.str();
+}
+
+void test(const char* locale, const char* testDataPath) {
   // Open test file.
   ifstream file(testDataPath);
   stringstream sstr;
@@ -43,11 +54,7 @@ void test(const char* testDataPath, const char* locale) {
   }
   end = chrono::steady_clock::now();
 
-  // cout << "Line break opportunities:" << endl;
-  // for (const auto& pos: breaks) {
-  //   cout << pos << " ";
-  // }
-  // cout << endl;
+  //cout << "Line break opportunities: [" << format_vector(breaks) << "]" << endl;
   cout << "Iterate line break opportunities: "
        << chrono::duration_cast<chrono::microseconds>(end - start).count()
        << "ms" << endl;
@@ -55,10 +62,13 @@ void test(const char* testDataPath, const char* locale) {
 
 int main() {
   cout << "Testing zhuangzi-en.txt" << endl;
-  test("../../data/zhuangzi-en.txt", "en");
+  test("en", "../../data/zhuangzi-en.txt");
 
   cout << "Testing zhuangzi-zh.txt" << endl;
-  test("../../data/zhuangzi-zh.txt", "zh");
+  test("zh", "../../data/zhuangzi-zh.txt");
+
+  cout << "Testing thai.txt" << endl;
+  test("th", "../../data/thai.txt");
 
   cout << endl;
   return 0;
