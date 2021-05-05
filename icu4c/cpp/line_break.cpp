@@ -10,6 +10,22 @@
 
 using namespace std;
 
+string format_vector(const vector<int32_t>& vec) {
+  stringstream sstr;
+
+  auto iter = vec.begin();
+  if (iter == vec.end()) {
+    return string();
+  }
+
+  sstr << *iter;
+  while (++iter != vec.end()) {
+    sstr << ", " << *iter;
+  }
+
+  return sstr.str();
+}
+
 void test(const char* locale, const char* testDataPath) {
   // Open test file.
   ifstream file(testDataPath);
@@ -38,11 +54,7 @@ void test(const char* locale, const char* testDataPath) {
   }
   end = chrono::steady_clock::now();
 
-  // cout << "Line break opportunities:" << endl;
-  // for (const auto& pos: breaks) {
-  //   cout << pos << " ";
-  // }
-  // cout << endl;
+  //cout << "Line break opportunities: [" << format_vector(breaks) << "]" << endl;
   cout << "Iterate line break opportunities: "
        << chrono::duration_cast<chrono::microseconds>(end - start).count()
        << "ms" << endl;
