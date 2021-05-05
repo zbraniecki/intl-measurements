@@ -5,17 +5,12 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-
-#include <unicode/utypes.h>
-#include <unicode/bytestream.h>
-#include <stdio.h>
 #include <chrono>
 #include <vector>
-#include <cstring>
 
 using namespace std;
 
-void test(const char* testDataPath, const char* locale) {
+void test(const char* locale, const char* testDataPath) {
   // Open test file.
   ifstream file(testDataPath);
   stringstream sstr;
@@ -55,10 +50,10 @@ void test(const char* testDataPath, const char* locale) {
 
 int main() {
   cout << "Testing zhuangzi-en.txt" << endl;
-  test("../../data/zhuangzi-en.txt", "en");
+  test("en", "../../data/zhuangzi-en.txt");
 
   cout << "Testing zhuangzi-zh.txt" << endl;
-  test("../../data/zhuangzi-zh.txt", "zh");
+  test("zh", "../../data/zhuangzi-zh.txt");
 
   cout << endl;
   return 0;
