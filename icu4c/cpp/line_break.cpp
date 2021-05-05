@@ -67,6 +67,9 @@ int main() {
   cout << "Testing zhuangzi-zh.txt" << endl;
   test("zh", "../../data/zhuangzi-zh.txt");
 
+  cout << "Testing thai.txt" << endl;
+  test("th", "../../data/thai.txt");
+
   cout << endl;
   return 0;
 }
