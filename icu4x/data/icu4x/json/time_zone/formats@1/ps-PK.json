@@ -1,0 +1,1 @@
+{"hour_format":["+HH:mm","-HH:mm"],"gmt_format":"GMT{0}","gmt_zero_format":"GMT","region_format":"د {0} په وخت","region_format_variants":{"daylight":"{0} رڼا ورځ وخت","standard":"{0} معیاری وخت"},"fallback_format":"{1} ({0})"}

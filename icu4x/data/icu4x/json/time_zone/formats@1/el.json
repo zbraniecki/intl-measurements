@@ -1,0 +1,1 @@
+{"hour_format":["+HH:mm","-HH:mm"],"gmt_format":"GMT{0}","gmt_zero_format":"GMT","region_format":"Ώρα ({0})","region_format_variants":{"daylight":"Θερινή ώρα ({0})","standard":"Χειμερινή ώρα ({0})"},"fallback_format":"[{1} ({0})]"}

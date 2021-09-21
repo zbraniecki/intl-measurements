@@ -1,21 +1,25 @@
 use icu_datetime::mock::datetime::MockDateTime;
 use icu_datetime::{options::length, DateTimeFormat};
-use icu_provider_fs::FsDataProvider;
+use icu_provider_blob::StaticDataProvider;
 use icu_locid::LanguageIdentifier;
 use intl_harness::datetime::HarnessDateTimeRuntime;
 
 
 pub struct Icu4XDateTime {
-    provider: FsDataProvider,
+    provider: StaticDataProvider,
     langids: Vec<LanguageIdentifier>,
     dates: Vec<MockDateTime>,
     lengths: Vec<(String, String)>,
 }
 
+const CLDR_BLOB: &[u8] = include_bytes!(concat!(
+    "../..//data/icu4x/cldr39.postcard"
+));
+
 impl Icu4XDateTime {
     fn new() -> Self {
-        let provider = FsDataProvider::try_new("../data/icu4x/bincode")
-            .expect("Loading file from testdata directory");
+        let provider = StaticDataProvider::new_from_static_blob(&CLDR_BLOB)
+            .expect("Failed to load data");
         Self {
             provider,
             langids: vec![],

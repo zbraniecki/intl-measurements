@@ -1,0 +1,1 @@
+{"hour_format":["+HH:mm","-HH:mm"],"gmt_format":"𞤑𞤖𞤘{0}","gmt_zero_format":"𞤑𞤖𞤘","region_format":"{0} 𞤑𞤭𞤶𞤮𞥅𞤪𞤫","region_format_variants":{"daylight":"{0} 𞤐𞤶𞤢𞤥𞤲𞤣𞤭 𞤕𞤫𞥅𞤯𞤵","standard":"{0} 𞤑𞤭𞤶𞤮𞥅𞤪𞤫 𞤖𞤢𞤱𞤪𞤭𞤼𞤵𞤲𞥋𞤣𞤫"},"fallback_format":"{1} ({0})"}

@@ -1,0 +1,1 @@
+{"hour_format":["+HH:mm","-HH:mm"],"gmt_format":"GMT{0}","gmt_zero_format":"GMT","region_format":"{0} 시간","region_format_variants":{"daylight":"{0} 하계 표준시","standard":"{0} 표준시"},"fallback_format":"{1}({0})"}

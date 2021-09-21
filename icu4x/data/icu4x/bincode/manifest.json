@@ -1,24 +1,4 @@
 {
   "aliasing": "NoAliases",
-  "locales": {
-    "IncludeList": [
-      "ar",
-      "be",
-      "bn",
-      "cs",
-      "de",
-      "en",
-      "es",
-      "fr",
-      "it",
-      "ja",
-      "sk",
-      "sr",
-      "th",
-      "tr",
-      "uk",
-      "zh"
-    ]
-  },
   "syntax": "Bincode"
 }

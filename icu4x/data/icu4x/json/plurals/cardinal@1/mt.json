@@ -1,0 +1,1 @@
+{"zero":null,"one":"n = 1","two":null,"few":"n = 0 or n % 100 = 2..10","many":"n % 100 = 11..19"}

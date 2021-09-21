@@ -1,18 +1,23 @@
 use std::convert::TryFrom;
 use icu_plurals::{PluralRules, PluralRuleType, PluralOperands};
 use icu_locid::LanguageIdentifier;
+use icu_provider_blob::StaticDataProvider;
 use icu_provider_fs::FsDataProvider;
 use intl_harness::plurals::HarnessPluralsRuntime;
 
 pub struct Icu4XPluralRules {
-    provider: FsDataProvider,
+    provider: StaticDataProvider,
     langids: Vec<LanguageIdentifier>,
 }
 
+const CLDR_BLOB: &[u8] = include_bytes!(concat!(
+    "../../data/icu4x/cldr39.postcard"
+));
+
 impl Icu4XPluralRules {
     fn new() -> Self {
-        let provider = FsDataProvider::try_new("../data/icu4x/bincode")
-            .expect("Loading file from testdata directory");
+        let provider = StaticDataProvider::new_from_static_blob(&CLDR_BLOB)
+            .expect("Failed to load data");
         Self {
             provider,
             langids: vec![]
