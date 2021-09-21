@@ -8,10 +8,9 @@ edition = "2018"
 
 [dependencies]
 intl-harness = { path = "../../harness" }
-icu_locid = "0.3"
-icu_datetime = "0.3"
-icu_provider_fs = { version = "0.3" , features = ["bincode"] }
-icu_provider_blob = "0.3"
+icu_locid = { path = "../../../icu4x/components/locid" }
+icu_datetime = { path = "../../../icu4x/components/datetime" }
+icu_provider_blob = { path = "../../../icu4x/provider/blob" }
 
 [profile.release]
 opt-level = 3

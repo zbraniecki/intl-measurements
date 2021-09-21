@@ -2,7 +2,6 @@ use std::convert::TryFrom;
 use icu_plurals::{PluralRules, PluralRuleType, PluralOperands};
 use icu_locid::LanguageIdentifier;
 use icu_provider_blob::StaticDataProvider;
-use icu_provider_fs::FsDataProvider;
 use intl_harness::plurals::HarnessPluralsRuntime;
 
 pub struct Icu4XPluralRules {
