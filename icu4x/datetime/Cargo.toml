@@ -9,6 +9,7 @@ edition = "2018"
 [dependencies]
 intl-harness = { path = "../../harness" }
 icu_locid = { path = "../../../icu4x/components/locid" }
+icu_calendar = { path = "../../../icu4x/components/calendar" }
 icu_datetime = { path = "../../../icu4x/components/datetime" }
 icu_provider_blob = { path = "../../../icu4x/provider/blob" }
 

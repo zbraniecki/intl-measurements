@@ -1,19 +1,20 @@
-use icu_datetime::mock::datetime::MockDateTime;
+use icu_datetime::mock::parse_gregorian_from_str;
 use icu_datetime::{options::length, DateTimeFormat};
 use icu_provider_blob::StaticDataProvider;
 use icu_locid::LanguageIdentifier;
+use icu_calendar::{DateTime, Gregorian};
 use intl_harness::datetime::HarnessDateTimeRuntime;
 
 
 pub struct Icu4XDateTime {
     provider: StaticDataProvider,
     langids: Vec<LanguageIdentifier>,
-    dates: Vec<MockDateTime>,
+    dates: Vec<DateTime<Gregorian>>,
     lengths: Vec<(String, String)>,
 }
 
 const CLDR_BLOB: &[u8] = include_bytes!(concat!(
-    "../..//data/icu4x/cldr39.postcard"
+    "../../data/icu4x/cldr39.postcard"
 ));
 
 impl Icu4XDateTime {
@@ -55,7 +56,9 @@ impl HarnessDateTimeRuntime for Icu4XDateTime {
     fn prepare(&mut self, langids: &[String], values: &[String], lengths: &[(String, String)]) {
         let langids: Vec<LanguageIdentifier> = langids.iter().map(|l| l.parse().unwrap()).collect();
         self.langids.extend(langids);
-        self.dates = values.iter().map(|s| s.parse().unwrap()).collect();
+        self.dates = values.iter().map(|s| {
+            parse_gregorian_from_str(s).unwrap()
+        }).collect();
         self.lengths = lengths.iter().cloned().collect();
     }
 
